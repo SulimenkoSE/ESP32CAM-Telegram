@@ -1,5 +1,18 @@
 #include "Sd_card_.h"
 
+#ifdef USE_MMC
+#include <SD_MMC.h> // Use onboard SD Card reader
+fs::FS &filesystem = SD_MMC;
+#else
+#include <FFat.h> // Use internal flash memory
+extern fs::FS &filesystem = FFat; // Is necessary select the proper partition scheme (ex. "Default 4MB with ffta..")
+#endif
+
+// Struct for saving time datas (needed for time-naming the image files)
+struct tm timeinfo;
+//select time zone
+const char *timeZona = "EET-2EEST,M3.5.0/3,M10.5.0/4";
+
 // List all files saved in the selected filesystem
 void listDir(fs::FS &fs, const char *dirname, uint8_t levels)
 {

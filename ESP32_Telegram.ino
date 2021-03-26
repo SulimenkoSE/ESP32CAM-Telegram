@@ -19,6 +19,7 @@ const char *token = "1554215186:AAEbD7gVmPe8dlIbMob_PsGV7vaE_L6bVHk"; // REPLACE
 #include "Setting_All.h"
 #include "camera.h"
 #include "Sd_card_.h"
+#include "AssyncRutine.h"
 
 //camera
 //#include "camera.h"
@@ -98,6 +99,7 @@ void setup()
   myInlineKbd.addButton("GitHub", "https://github.com/", KeyboardButtonURL);
 
   //Init Sd
+  Sd_init();
 }
 
 void loop()
