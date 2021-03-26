@@ -6,6 +6,10 @@
 #define ESP32
 #include <Arduino.h>
 
+#include "FS.h"
+#include "FFat.h"
+#include <time.h>
+
 // Select camera model
 //#define CAMERA_MODEL_WROVER_KIT
 //#define CAMERA_MODEL_ESP_EYE

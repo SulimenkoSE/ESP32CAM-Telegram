@@ -15,10 +15,6 @@
 #include "fb_gfx.h"
 #include "fd_forward.h"
 #include "fr_forward.h"
-
-#include "FS.h"
-#include "FFat.h"
-#include <time.h>
 #include "Sd_card_.h"
 
 #if defined(CAMERA_MODEL_WROVER_KIT)

@@ -46,7 +46,7 @@ void listDir(fs::FS &fs, const char *dirname, uint8_t levels)
 	}
 }
 
-void listDir_teme(fs::FS &fs, const char *dirname, uint8_t levels)
+void listDir_time(fs::FS &fs, const char *dirname, uint8_t levels)
 {
 	Serial.printf("Listing directory: %s\n", dirname);
 

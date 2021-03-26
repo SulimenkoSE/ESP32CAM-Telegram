@@ -8,7 +8,7 @@
 #include "camera.h"
 
 void listDir(fs::FS &fs, const char *dirname, uint8_t levels);
-void listDir_teme(fs::FS &fs, const char *dirname, uint8_t levels);
+void listDir_time(fs::FS &fs, const char *dirname, uint8_t levels);
 void Sd_init();
 String savePhoto(camera_fb_t *fbc);
 #endif

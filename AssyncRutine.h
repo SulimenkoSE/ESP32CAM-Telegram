@@ -9,5 +9,5 @@
 extern bool isKeyboardActive; // store if the reply keyboard is shown
 
 void asynk_Init();
-
+void BotMessage();
 #endif
