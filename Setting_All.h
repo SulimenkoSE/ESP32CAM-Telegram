@@ -34,5 +34,7 @@ and replace String value inside
 for Kyiv, Ukraine select time zone
 const char *timeZona = "EET-2EEST,M3.5.0/3,M10.5.0/4"; */
 extern const char *timeZona;
+// REPLACE myToken WITH YOUR TELEGRAM BOT TOKEN in file AssyncRutine.cpp
+extern const char *token;
 
 #endif

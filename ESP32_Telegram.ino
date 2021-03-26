@@ -27,15 +27,8 @@ const char *token = "1554215186:AAEbD7gVmPe8dlIbMob_PsGV7vaE_L6bVHk"; // REPLACE
 #include "soc/soc.h"          // Brownout error fix
 #include "soc/rtc_cntl_reg.h" // Brownout error fix
 
-AsyncTelegram myBot;
-ReplyKeyboard myReplyKbd;   // reply keyboard object helper
-InlineKeyboard myInlineKbd; // inline keyboard object helper
-
-bool isKeyboardActive; // store if the reply keyboard is shown
-
-const char *ssid = "Nina_Iot";                                        // REPLACE mySSID WITH YOUR WIFI SSID
-const char *pass = "Sergik9876632";                                   // REPLACE myPassword YOUR WIFI PASSWORD, IF ANY
-const char *token = "1554215186:AAEbD7gVmPe8dlIbMob_PsGV7vaE_L6bVHk"; // REPLACE myToken WITH YOUR TELEGRAM BOT TOKEN
+const char *ssid = "Nina_Iot";      // REPLACE mySSID WITH YOUR WIFI SSID
+const char *pass = "Sergik9876632"; // REPLACE myPassword YOUR WIFI PASSWORD, IF ANY
 
 void setup()
 {
@@ -60,7 +53,7 @@ void setup()
   Serial.print("\nWiFi connected: ");
   Serial.print(WiFi.localIP());
 
-  // To ensure certificate validation, WiFiClientSecure needs time updated
+  /* // To ensure certificate validation, WiFiClientSecure needs time updated
   // myBot.setInsecure(false);
   myBot.setClock(timeZona);
 
@@ -96,7 +89,8 @@ void setup()
   myInlineKbd.addButton("ON", LIGHT_ON_CALLBACK, KeyboardButtonQuery);
   myInlineKbd.addButton("OFF", LIGHT_OFF_CALLBACK, KeyboardButtonQuery);
   myInlineKbd.addRow();
-  myInlineKbd.addButton("GitHub", "https://github.com/", KeyboardButtonURL);
+  myInlineKbd.addButton("GitHub", "https://github.com/", KeyboardButtonURL); */
+  asynk_Init();
 
   //Init Sd
   Sd_init();
