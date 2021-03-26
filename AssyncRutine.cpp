@@ -5,8 +5,8 @@ const char *token = "1554215186:AAEbD7gVmPe8dlIbMob_PsGV7vaE_L6bVHk"; // REPLACE
 AsyncTelegram myBot;
 ReplyKeyboard myReplyKbd;		// reply keyboard object helper
 InlineKeyboard myInlineKbd; // inline keyboard object helper
-
-bool isKeyboardActive; // store if the reply keyboard is shown
+bool isKeyboardActive = false;
+; // store if the reply keyboard is shown
 
 void asynk_Init()
 {
@@ -22,8 +22,6 @@ void asynk_Init()
 	Serial.print("\nTest Telegram connection... ");
 	myBot.begin() ? Serial.println("OK") : Serial.println("NOK");
 
-	// Add reply keyboard
-	isKeyboardActive = false;
 	// add a button that send a message with "Simple button" text
 	myReplyKbd.addButton("PHOTO", KeyboardButtonPhoto);
 	myReplyKbd.addButton("Button2");
