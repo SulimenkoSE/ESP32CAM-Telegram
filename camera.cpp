@@ -71,64 +71,34 @@ void cameraSetup(framesize_t frameSize)
 #endif
 }
 
-String takePhoto()
+/* void takePhoto()
 {
-	/*
-	// Set filename with current timestamp "YYYYMMDD_HHMMSS.jpg"
-	char pictureName[FILENAME_SIZE];
-	getLocalTime(&timeinfo);
-	snprintf(pictureName, FILENAME_SIZE, "%02d%02d%02d_%02d%02d%02d.jpg", timeinfo.tm_year + 1900,
-					 timeinfo.tm_mon + 1, timeinfo.tm_mday, timeinfo.tm_hour, timeinfo.tm_min, timeinfo.tm_sec);
-
-	// Path where new picture will be saved
-	String path = "/";
-	path += String(pictureName);
-
-	 File file = fs.open(path.c_str(), FILE_WRITE);
-	if (!file)
-	{
-		Serial.println("Failed to open file in writing mode");
-		return "";
-	} */
-
 	// Take Picture with Camera
 	ledcWrite(15, 255); // Flash led ON
 	camera_fb_t *fb = esp_camera_fb_get();
 	if (!fb)
 	{
 		Serial.println("Camera capture failed");
-		return "";
 	}
 	ledcWrite(15, 0); // Flash led OFF
 
 	// Save picture to memory
-	String path = savePhoto(fb);
-	/* #ifdef USE_MMC
-	uint64_t freeBytes = SD_MMC.totalBytes() - SD_MMC.usedBytes();
-#else
-	uint64_t freeBytes = FFat.freeBytes();
-#endif
-
-	if (freeBytes > fb->len)
+	String myFile = savePhoto(fb);
+	if (myFile != "")
 	{
-		file.write(fb->buf, fb->len); // payload (image), payload length
-		Serial.printf("Saved file to path: %s\n", path.c_str());
-		file.close();
+		if (!myBot.sendPhotoByFile(msg.sender.id, myFile, filesystem))
+			Serial.println("Photo send failed");
+		//If you don't need to keep image in memory, delete it
+		if (KEEP_IMAGE == false)
+		{
+			//filesystem.remove("/" + myFile);
+		}
 	}
-	else
-		Serial.println("Not enough space avalaible");
- */
 	esp_camera_fb_return(fb);
-	return path;
-}
+}*/
 
 void camera_Init()
 {
-	// Init Camera
-	esp_err_t err = esp_camera_init(&config);
-	if (err != ESP_OK)
-	{
-		Serial.printf("Camera init failed with error 0x%x", err);
-		return;
-	}
+	// Init the camera
+	cameraSetup(FRAMESIZE_UXGA); //QVGA|CIF|VGA|SVGA|XGA|SXGA
 }

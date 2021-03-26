@@ -5,7 +5,17 @@
 
 #define ESP32
 #include <Arduino.h>
-
+#include <WiFi.h>
+//camera
+#include "esp_http_server.h"
+#include "esp_timer.h"
+#include "esp_camera.h"
+#include "img_converters.h"
+#include "sensor.h"
+#include "fb_gfx.h"
+#include "fd_forward.h"
+#include "fr_forward.h"
+//filesysytems
 #include "FS.h"
 #include "FFat.h"
 #include <time.h>
@@ -39,6 +49,7 @@ for Kyiv, Ukraine select time zone
 const char *timeZona = "EET-2EEST,M3.5.0/3,M10.5.0/4"; */
 extern const char *timeZona;
 // REPLACE myToken WITH YOUR TELEGRAM BOT TOKEN in file AssyncRutine.cpp
-extern const char *token;
+//extern const char *token;
+//AsyncTelegram variable bool isKeyboardActive = false;
 
 #endif

@@ -1,4 +1,7 @@
-#include "AssyncRutine.h"
+#include "AsyncTelegram.h"
+#include "TelegramBot.h"
+#include "Setting_All.h"
+#include "Sd_card_.h"
 
 const char *token = "1554215186:AAEbD7gVmPe8dlIbMob_PsGV7vaE_L6bVHk"; // REPLACE myToken WITH YOUR TELEGRAM BOT TOKEN
 
@@ -8,7 +11,7 @@ InlineKeyboard myInlineKbd; // inline keyboard object helper
 bool isKeyboardActive = false;
 // store if the reply keyboard is shown
 
-void asynk_Init()
+void Bot_Init()
 {
 	// To ensure certificate validation, WiFiClientSecure needs time updated
 	// myBot.setInsecure(false);
@@ -21,9 +24,12 @@ void asynk_Init()
 	// Check if all things are ok
 	Serial.print("\nTest Telegram connection... ");
 	myBot.begin() ? Serial.println("OK") : Serial.println("NOK");
+}
 
+void KeyboardButon_Init()
+{
 	// add a button that send a message with "Simple button" text
-	myReplyKbd.addButton("PHOTO", KeyboardButtonPhoto);
+	myReplyKbd.addButton("PHOTO");
 	myReplyKbd.addButton("Button2");
 	myReplyKbd.addButton("Button3");
 	// add a new empty button row
@@ -39,7 +45,10 @@ void asynk_Init()
 	myReplyKbd.addButton("/hide_keyboard");
 	// resize the keyboard to fit only the needed space
 	myReplyKbd.enableResize();
+}
 
+void KeyboardInline_Init()
+{
 	// Add sample inline keyboard
 	myInlineKbd.addButton("ON", LIGHT_ON_CALLBACK, KeyboardButtonQuery);
 	myInlineKbd.addButton("OFF", LIGHT_OFF_CALLBACK, KeyboardButtonQuery);
@@ -47,7 +56,7 @@ void asynk_Init()
 	myInlineKbd.addButton("GitHub", "https://github.com/", KeyboardButtonURL);
 }
 
-void BotMessage()
+void Bot_Message()
 {
 	// a variable to store telegram message data
 	TBMessage msg;
@@ -91,8 +100,27 @@ void BotMessage()
 				}
 				else
 				{
-					// print every others messages received
-					myBot.sendMessage(msg, msg.text);
+					if (tgReply == "PHOTO")
+					{
+						myBot.sendMessage(msg, "PHOTO");
+						// Take picture and save to file
+						String myFile = savePhoto();
+						if (myFile != "")
+						{
+							if (!myBot.sendPhotoByFile(msg.sender.id, myFile, filesystem))
+								Serial.println("Photo send failed");
+							//If you don't need to keep image in memory, delete it
+							if (KEEP_IMAGE == false)
+							{
+								filesystem.remove("/" + myFile);
+							}
+						}
+					}
+					else
+					{
+						// print every others messages received
+						myBot.sendMessage(msg, "msg.text line 103");
+					}
 				}
 			}
 
@@ -130,26 +158,20 @@ void BotMessage()
 
 		case MessageLocation:
 			// received a location message --> send a message with the location coordinates
-			char bufL[50];
-			snprintf(bufL, sizeof(bufL), "Longitude: %f\nLatitude: %f\n", msg.location.longitude, msg.location.latitude);
-			myBot.sendMessage(msg, bufL);
-			Serial.println(bufL);
+			char bufML[50];
+			snprintf(bufML, sizeof(bufML), "Longitude: %f\nLatitude: %f\n", msg.location.longitude, msg.location.latitude);
+			myBot.sendMessage(msg, bufML);
+			Serial.println(bufML);
 			break;
 
 		case MessageContact:
-			char bufC[50];
-			snprintf(bufC, sizeof(bufC), "Contact information received: %s - %s\n", msg.contact.firstName, msg.contact.phoneNumber);
+			char bufMC[50];
+			snprintf(bufMC, sizeof(bufMC), "Contact information received: %s - %s\n", msg.contact.firstName, msg.contact.phoneNumber);
 			// received a contact message --> send a message with the contact information
-			myBot.sendMessage(msg, bufC);
-			Serial.println(bufC);
+			myBot.sendMessage(msg, bufMC);
+			Serial.println(bufMC);
 			break;
-		case MessagePhoto:
-			/* char bufC[50];
-      snprintf(bufC, sizeof(bufC), "Contact information received: %s - %s\n", msg.contact.firstName, msg.contact.phoneNumber);
-      // received a contact message --> send a message with the contact information
-      myBot.sendMessage(msg, bufC);
-      Serial.println(bufC); */
-			break;
+
 		default:
 			break;
 		}

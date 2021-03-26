@@ -1,3 +1,6 @@
+#include "Setting_All.h"
+#include "esp_camera.h"
+//#include "camera.h"
 #include "Sd_card_.h"
 
 #ifdef USE_MMC
@@ -93,7 +96,12 @@ void listDir_time(fs::FS &fs, const char *dirname, uint8_t levels)
 
 void Sd_init()
 {
+	// Init and get the system time
+	configTime(3600, 3600, "pool.ntp.org");
+	getLocalTime(&timeinfo);
+	Serial.println(&timeinfo, "%A, %B %d %Y %H:%M:%S");
 
+#ifdef USE_MMC
 	if (!SD_MMC.begin())
 	{
 		Serial.println("Card Mount Failed");
@@ -127,10 +135,19 @@ void Sd_init()
 
 	uint64_t cardSize = SD_MMC.cardSize() / (1024 * 1024);
 	Serial.printf("SD Card Size: %lluMB\n", cardSize);
+#else
+	// Init filesystem (format if necessary)
+	if (!FFat.begin(FORMAT_FS_IF_FAILED))
+		Serial.println("\nFS Mount Failed.\nFilesystem will be formatted, please wait.");
+	Serial.printf("\nTotal space: %10lu\n", FFat.totalBytes());
+	Serial.printf("Free space: %10lu\n", FFat.freeBytes());
+#endif
+	listDir_time(filesystem, "/", 0);
 }
 
-String savePhoto(camera_fb_t *fbc)
+String savePhoto()
 {
+	listDir(filesystem, "/", 0);
 	// Set filename with current timestamp "YYYYMMDD_HHMMSS.jpg"
 	char pictureName[FILENAME_SIZE];
 	getLocalTime(&timeinfo);
@@ -151,10 +168,18 @@ String savePhoto(camera_fb_t *fbc)
 #else
 	uint64_t freeBytes = FFat.freeBytes();
 #endif
-
-	if (freeBytes > fbc->len)
+	// Take Picture with Camera
+	ledcWrite(15, 255); // Flash led ON
+	camera_fb_t *fb = esp_camera_fb_get();
+	if (!fb)
 	{
-		file.write(fbc->buf, fbc->len); // payload (image), payload length
+		Serial.println("Camera capture failed");
+	}
+	ledcWrite(15, 0); // Flash led OFF
+
+	if (freeBytes > fb->len)
+	{
+		file.write(fb->buf, fb->len); // payload (image), payload length
 		Serial.printf("Saved file to path: %s\n", path.c_str());
 		file.close();
 		return path;

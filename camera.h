@@ -3,15 +3,12 @@
 #ifndef _CAMERA_h
 #define _CAMERA_h
 
+#include "Setting_All.h"
 #include "esp_http_server.h"
 #include "esp_timer.h"
 #include "esp_camera.h"
 #include "img_converters.h"
 #include "sensor.h"
-#include "Setting_All.h"
-#include "camera.h"
-#include "Arduino.h"
-
 #include "fb_gfx.h"
 #include "fd_forward.h"
 #include "fr_forward.h"
@@ -117,7 +114,7 @@
 #endif
 
 void cameraSetup(framesize_t frameSize);
-String takePhoto();
+//void takePhoto();
 void camera_Init();
 
 #endif

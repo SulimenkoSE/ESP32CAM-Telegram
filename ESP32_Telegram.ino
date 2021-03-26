@@ -17,12 +17,9 @@ const char *token = "1554215186:AAEbD7gVmPe8dlIbMob_PsGV7vaE_L6bVHk"; // REPLACE
                 open a browser window with URL "https://github.com/cotestatnt/AsyncTelegram"
 */
 #include "Setting_All.h"
-#include "camera.h"
 #include "Sd_card_.h"
-#include "AssyncRutine.h"
-
-//camera
-//#include "camera.h"
+#include "camera.h"
+#include "TelegramBot.h"
 
 #include "soc/soc.h"          // Brownout error fix
 #include "soc/rtc_cntl_reg.h" // Brownout error fix
@@ -32,8 +29,10 @@ const char *pass = "Sergik9876632"; // REPLACE myPassword YOUR WIFI PASSWORD, IF
 
 void setup()
 {
+  WRITE_PERI_REG(RTC_CNTL_BROWN_OUT_REG, 0); //disable brownout detector
+                                             //pinMode 15 red;
   pinMode(LED_BUILTIN, OUTPUT);
-  //pinMode(LED, OUTPUT);
+
   // initialize the Serial
   Serial.begin(115200);
 
@@ -51,12 +50,17 @@ void setup()
     delay(500);
   }
   Serial.print("\nWiFi connected: ");
-  Serial.print(WiFi.localIP());
+  Serial.println(WiFi.localIP());
 
-  //asynk_Init();
-
-  //Init Sd
-  //Sd_init();
+  //initializing Sd
+  Sd_init();
+  //initializing camera
+  camera_Init();
+  //initializing Bot Telegram
+  Bot_Init();
+  //initializing rteboard in Bot Telegram
+  KeyboardButon_Init();
+  KeyboardInline_Init();
 }
 
 void loop()
@@ -65,10 +69,11 @@ void loop()
   // In the meantime LED_BUILTIN will blink with a fixed frequency
   // to evaluate async and non-blocking working of library
   static uint32_t ledTime = millis();
-  if (millis() - ledTime > 200)
+  if (millis() - ledTime > 1000)
   {
     ledTime = millis();
     digitalWrite(LED_BUILTIN, !digitalRead(LED_BUILTIN));
+    Bot_Message();
   }
-  //void BotMessage();
+  //
 }
