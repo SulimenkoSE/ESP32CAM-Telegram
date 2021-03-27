@@ -1,7 +1,7 @@
 /*
- const char *ssid = "Nina_Iot";                                        // REPLACE mySSID WITH YOUR WIFI SSID
-const char *pass = "Sergik9876632";                                   // REPLACE myPassword YOUR WIFI PASSWORD, IF ANY
-const char *token = "1554215186:AAEbD7gVmPe8dlIbMob_PsGV7vaE_L6bVHk"; // REPLACE myToken WITH YOUR TELEGRAM BOT TOKEN
+ const char *ssid = "******";                                        // REPLACE mySSID WITH YOUR WIFI SSID
+const char *pass = "*****";                                   // REPLACE myPassword YOUR WIFI PASSWORD, IF ANY
+const char *token = "******:**************************************"; // REPLACE myToken WITH YOUR TELEGRAM BOT TOKEN
 */
 /*
   Name:        keyboards.ino
@@ -24,8 +24,8 @@ const char *token = "1554215186:AAEbD7gVmPe8dlIbMob_PsGV7vaE_L6bVHk"; // REPLACE
 #include "soc/soc.h"          // Brownout error fix
 #include "soc/rtc_cntl_reg.h" // Brownout error fix
 
-const char *ssid = "Nina_Iot";      // REPLACE mySSID WITH YOUR WIFI SSID
-const char *pass = "Sergik9876632"; // REPLACE myPassword YOUR WIFI PASSWORD, IF ANY
+const char *ssid = "******";      // REPLACE mySSID WITH YOUR WIFI SSID
+const char *pass = "*******"; // REPLACE myPassword YOUR WIFI PASSWORD, IF ANY
 
 void setup()
 {
