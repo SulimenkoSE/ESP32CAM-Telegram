@@ -31,7 +31,7 @@ void setup()
 {
   WRITE_PERI_REG(RTC_CNTL_BROWN_OUT_REG, 0); //disable brownout detector
                                              //pinMode 15 red;
-  pinMode(LED_BUILTIN, OUTPUT);
+  //pinMode(LED_BUILTIN, OUTPUT);
 
   // initialize the Serial
   Serial.begin(115200);
@@ -72,7 +72,7 @@ void loop()
   if (millis() - ledTime > 1000)
   {
     ledTime = millis();
-    digitalWrite(LED_BUILTIN, !digitalRead(LED_BUILTIN));
+    //digitalWrite(LED_BUILTIN, !digitalRead(LED_BUILTIN));
     Bot_Message();
   }
   //

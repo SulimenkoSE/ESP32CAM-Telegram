@@ -4,10 +4,10 @@
 #include "Sd_card_.h"
 
 #ifdef USE_MMC
-#include <SD_MMC.h> // Use onboard SD Card reader
+//#include <SD_MMC.h> // Use onboard SD Card reader
 fs::FS &filesystem = SD_MMC;
 #else
-#include <FFat.h> // Use internal flash memory
+//#include <FFat.h> // Use internal flash memory
 extern fs::FS &filesystem = FFat; // Is necessary select the proper partition scheme (ex. "Default 4MB with ffta..")
 #endif
 
@@ -139,15 +139,16 @@ void Sd_init()
 	// Init filesystem (format if necessary)
 	if (!FFat.begin(FORMAT_FS_IF_FAILED))
 		Serial.println("\nFS Mount Failed.\nFilesystem will be formatted, please wait.");
+
 	Serial.printf("\nTotal space: %10lu\n", FFat.totalBytes());
 	Serial.printf("Free space: %10lu\n", FFat.freeBytes());
+	listDir_time(FFat, "/", 0);
 #endif
-	listDir_time(filesystem, "/", 0);
+	//listDir_time(filesystem, "/", 0);
 }
 
 String savePhoto()
 {
-	listDir(filesystem, "/", 0);
 	// Set filename with current timestamp "YYYYMMDD_HHMMSS.jpg"
 	char pictureName[FILENAME_SIZE];
 	getLocalTime(&timeinfo);
@@ -157,6 +158,9 @@ String savePhoto()
 	// Path where new picture will be saved
 	String path = "/";
 	path += String(pictureName);
+
+	Serial.printf("Open file to path: %s\n", path.c_str());
+
 	File file = filesystem.open(path.c_str(), FILE_WRITE);
 	if (!file)
 	{

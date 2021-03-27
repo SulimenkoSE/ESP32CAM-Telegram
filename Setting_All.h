@@ -16,8 +16,13 @@
 #include "fd_forward.h"
 #include "fr_forward.h"
 //filesysytems
+#ifdef USE_MMC
+#include <SD_MMC.h> // Use onboard SD Card reader
+#else
+#include <FFat.h> // Use internal flash memory
+// Is necessary select the proper partition scheme (ex. "Default 4MB with ffta..")
+#endif
 #include "FS.h"
-#include "FFat.h"
 #include <time.h>
 
 // Select camera model
@@ -30,9 +35,9 @@
 #define FLASH_LED 4
 //select sd card reader
 // Define where store images (on board SD card reader or internal flash memory)
-#define USE_MMC true
+//#define USE_MMC true
 // You only need to format FFat when error on mount (don't work with MMC SD card)
-#define FORMAT_FS_IF_FAILED true
+#define FORMAT_FS_IF_FAILED false
 #define FILENAME_SIZE 20
 #define KEEP_IMAGE true
 
@@ -51,5 +56,7 @@ extern const char *timeZona;
 // REPLACE myToken WITH YOUR TELEGRAM BOT TOKEN in file AssyncRutine.cpp
 //extern const char *token;
 //AsyncTelegram variable bool isKeyboardActive = false;
+
+extern fs::FS &filesystem;
 
 #endif
