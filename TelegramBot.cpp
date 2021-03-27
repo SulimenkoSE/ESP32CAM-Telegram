@@ -3,7 +3,7 @@
 #include "Setting_All.h"
 #include "Sd_card_.h"
 
-const char *token = "1554215186:AAEbD7gVmPe8dlIbMob_PsGV7vaE_L6bVHk"; // REPLACE myToken WITH YOUR TELEGRAM BOT TOKEN
+const char *token = "***********:***********************************"; // REPLACE myToken WITH YOUR TELEGRAM BOT TOKEN
 
 AsyncTelegram myBot;
 ReplyKeyboard myReplyKbd;		// reply keyboard object helper
